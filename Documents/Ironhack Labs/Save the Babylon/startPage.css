@@ -1,0 +1,42 @@
+body {
+    background: linear-gradient(to bottom, #FDD835, #FFA500);
+    background: radial-gradient(circle, #FFA500, #FF4500, #7f33d6);
+    background-size: cover;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Games', sans-serif;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 4rem;
+    background: linear-gradient(to bottom right,#7f33d6, #fcd116, #000);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-size: 200% 100%;
+    animation: gradient 10s ease infinite;
+  }
+  @keyframes gradient {
+    0% { background-position: 0 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0 50%; }
+  }
+  
+  p {
+    text-align: center;
+  }
+   #start-btn {
+    display: block;
+    margin: auto;
+    background-color: transparent;
+    border: none;
+    margin: 50px auto 100px;
+   }
+   .snoop-intro {
+    text-align: center;
+   }
