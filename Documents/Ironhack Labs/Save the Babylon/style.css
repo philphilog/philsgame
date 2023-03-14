@@ -1,6 +1,13 @@
 html, body {
+  background: linear-gradient(to bottom, #FDD835, #FFA500);
+  background: radial-gradient(circle, #FFA500, #FF4500);
+  background-size: cover;
   margin: 0;
   padding: 0;
+}
+
+h1 {
+  text-align: center;
 }
 
 canvas {
