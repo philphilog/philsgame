@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.js"></script>
+    <link rel="stylesheet" type="text/css" href="startPage.css">
+    <meta charset="UTF-8" />
+    <title>Snoop Saves the world!</title>
+  </head>
+  <body>
+
+    <h1>Snoop Saves the world!</title>
+    </head></h1>
+    <p>Use the arrow keys to control Snoop Dog and the Space Bar to shoot at the enemies</p>
+    <p>Click on Snoop to start the game!</p>
+
+<link href="https://fonts.cdnfonts.com/css/games" rel="stylesheet">
+<style>
+  @import url('https://fonts.cdnfonts.com/css/games');
+</style>
+<script src="libraries/p5.min.js"></script>
+<script src="libraries/p5.sound.min.js"></script>
+</head>
+                
+    <button id="start-btn">
+      <img src="images/snoopintro.gif" alt="Snoop Dogg animated intro">
+    </button>
+    <script>
+      document
+        .querySelector("#start-btn")
+        .addEventListener("click", function () {
+          window.location.href = "game.html";
+        });
+    </script>
+  </body>
+</html>
