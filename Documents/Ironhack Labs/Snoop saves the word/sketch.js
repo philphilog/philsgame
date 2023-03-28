@@ -10,11 +10,17 @@ let weeds = [];
 let weedX = [];
 let weedY = [];
 let startTime;
+let boxes = [];
+let boxSize = 50;
+let numRows = 6;
+let numCols = 12;
 let nextWeedTime = 0;
 const weedInterval = 1000;
-let enemy, weed;
-const canvas = document.getElementById("gameCanvas");
-const ctx = canvas.getContext("2d");
+let gameOver = false;
+let points = 0;
+let button;
+let restartButton;
+
 
 function checkOverlap(img1, img2) {
   let xOverlap = false;
@@ -40,9 +46,15 @@ function checkOverlap(img1, img2) {
   if (img1Box.y < img2Box.y + img2Box.height && img1Box.y + img1Box.height > img2Box.y) {
     yOverlap = true;
   }
-
-  return xOverlap && yOverlap;
+  
+  if (xOverlap && yOverlap) {
+    return true;
+  } else {
+    return false;
+  }
 }
+
+
 
 function preload() {
   backgroundImage = loadImage("images/background.jpeg");
@@ -62,12 +74,49 @@ function setup() {
     enemyX = [];
     enemyY = [];
     startTime = millis();
+    button = createButton("Restart");
+    button.position(width / 2 - button.width / 2, height / 2 + 100);
+    button.mousePressed(restartGame);
+    button.hide();
+    for (let i = 0; i < numRows; i++) {
+      boxes[i] = [];
+      for (let j = 0; j < numCols; j++) {
+        boxes[i][j] = {
+          x: j * boxSize,
+          y: i * boxSize,
+          w: boxSize,
+          h: boxSize,
+          hasWeed: false
+        };
+      }
+    }
+  
     enemies.push({
       x: width + enemy.width / 7.5,
       y: random(height),
       velocity: random(1, 3),
       hitByWeed: false,
     });
+  }
+  
+}
+
+function restartGame() {
+  gameOver = false;
+  button.hide();
+  
+  enemies = [];
+  enemyX = [];
+  enemyY = [];
+  weeds = [];
+  weedX = [];
+  weedY = [];
+  startTime = millis();
+  
+  for (let i = 0; i < numRows; i++) {
+    for (let j = 0; j < numCols; j++) {
+      boxes[i][j].hasWeed = false;
+    }
   }
 }
 
@@ -80,6 +129,8 @@ function draw() {
     fill(255);
     textSize(20);
 
+    
+
     let enemyFrequency = map(elapsedSeconds, 0, 500, 0, 0.001);
     if (millis() > startTime + 1000) {
       if (random(0, 100) < enemyFrequency) {
@@ -91,6 +142,12 @@ function draw() {
           velocity: randomVelocity,
           hitByWeed: false,
         });
+        enemyX += 1;
+    weedY += 1;
+    enemyBox.x = enemyX;
+    enemyBox.y = enemyY;
+    weedBox.x = weedX;
+    weedBox.y = weedY;
       }
       for (let i = 0; i < enemies.length; i++) {
         let elapsedTime = floor((millis() - startTime) / 1000);
@@ -122,6 +179,23 @@ function draw() {
           weedThrown = false;
         }
       }
+      for (let i = 0; i < enemies.length; i++) {
+        for (let j = 0; j < weeds.length; j++) {
+          let enemyX = enemies[i].x;
+          let enemyY = enemies[i].y;
+          let weedX = weeds[j].x;
+          let weedY = weeds[j].y;
+          let distance = dist(enemyX, enemyY, weedX, weedY);
+          if (distance < enemy.width / 7.5 + weed.width / 10) {
+            enemies.splice(i, 1);
+            weeds.splice(j, 1);
+            i--;
+            j--;
+            break;
+          }
+        }
+      }
+      
     }
     if (frameCount % 60 === 0) {
       let randomY = random(height);
@@ -136,16 +210,27 @@ function draw() {
   }
   for (let i = 0; i < enemies.length; i++) {
     if (checkOverlap({x: snoopX, y: snoopY, width: snoop.width / 6, height: snoop.height / 6}, {x: enemies[i].x, y: enemies[i].y, width: enemy.width / 7.5, height: enemy.height / 7.5})) {
-      // Game over
       textSize(50);
       fill(255, 0, 0);
       textAlign(CENTER);
       text("Game Over", width/2, height/2);
+      text("Points: " + points, width / 2, height / 2 + 50);
       noLoop();
       break;
     }
   }
-  
+  points = floor((millis() - startTime) / 1000);
+  if (gameOver) {
+    textSize(32);
+    text("Game Over", width / 2, height / 2);
+    button.show();
+  }
+}
+if (boundingBoxCollision(enemyBox, weedBox)) {
+  enemyX = -enemy.width / 7.5;
+  enemyY = -enemy.height / 7.5;
+  enemyBox.x = enemyX;
+  enemyBox.y = enemyY;
 }
 
 function keyPressed() {
