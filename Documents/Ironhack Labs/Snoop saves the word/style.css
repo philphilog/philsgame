@@ -1,6 +1,7 @@
-html, body {
-  font-family: 'Games', sans-serif;
-  background: radial-gradient(circle, #FFA500, #FF4500);
+html,
+body {
+  font-family: "Games", sans-serif;
+  background: radial-gradient(circle, #ffa500, #ff4500);
   background-size: cover;
   margin: 0;
   padding: 0;
@@ -17,4 +18,31 @@ h1 {
 }
 canvas {
   display: block;
+}
+
+.d-none {
+  display: none;
+}
+
+.game-over {
+  width: 100%;
+  position: absolute;
+  /* left: 0; */
+  /* right: 0; */
+  margin-top: -643px;
+}
+
+.restart-btn {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  background-color: #ff4500;
+  z-index: 2;
+  width: 300px;
+  height: 22px;
+  color: white;
+  cursor: pointer;
+  position: absolute;
+}
+
+.restart-btn:hover {
+  background-color: #7f33d6;
 }

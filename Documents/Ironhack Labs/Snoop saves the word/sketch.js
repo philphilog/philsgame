@@ -7,7 +7,7 @@ let enemies = [];
 let weeds = [];
 let startTime;
 let boxes = [];
-let boxSize = 50;
+let boxSize = 10;
 let numRows = 6;
 let numCols = 12;
 let nextWeedTime = 0;
@@ -17,7 +17,18 @@ let points = 0;
 let button;
 let gameStarted = false;
 let bgMusic;
+let enemyX = [100, 200, 300];
+let enemyY = [50, 100, 150];
+let weedX = [75, 175, 275];
+let weedY = [250, 300, 350];
 
+
+function restart() {
+  gameOver = false;
+  preload();
+  setup();
+  draw();   
+}
 
 function checkOverlap(img1, img2) {
   let xOverlap = false;
@@ -62,7 +73,6 @@ function preload() {
   snoop = loadImage("images/snoop.png");
   enemy = loadImage("images/policeman.png");
   weed = loadImage("images/weed.png");
-
 }
 
 function setup() {
@@ -98,7 +108,7 @@ function setup() {
   }
 }
 
-function restartGame() {
+/*function restartGame() {
   gameOver = false;
   button.hide();
 
@@ -115,7 +125,7 @@ function restartGame() {
       boxes[i][j].hasWeed = false;
     }
   }
-}
+} */
 
 function draw() {
   if (showIntro) {
@@ -202,12 +212,7 @@ function draw() {
     }
     keyPressed();
   }
-  function checkGameOver() {
-    if (gameOver) {
-      bgMusic.stop();
-    }
-  }
-  
+
   for (let i = 0; i < enemies.length; i++) {
     if (
       checkOverlap(
@@ -228,8 +233,7 @@ function draw() {
       textSize(50);
       fill(255, 0, 0);
       textAlign(CENTER);
-      
-      // Create a black background for the text
+
       var textBgWidth = 1200;
       var textBgHeight = 200;
       var textBgX = width / 2 - textBgWidth / 2;
@@ -237,27 +241,21 @@ function draw() {
       noStroke();
       fill(0, 0, 0);
       rect(textBgX, textBgY, textBgWidth, textBgHeight);
-      
-      // Draw the "Points" text on top of the black background
+
       fill(255, 255, 255);
       text("Points: " + points, width / 2, height / 2 - 20);
-      
-      // Draw the "Game Over" text on top of the black background
+
       fill(255, 0, 0);
       text("Game Over", width / 2, height / 2 + 30);
-      
-      // Draw the "Refresh page to restart" text on top of the black background
+
       fill(255, 255, 255);
       text("Refresh page to restart", width / 2, height / 2 + 80);
-      
+
       noLoop();
       break;
-           
-      
     }
   }
   points = floor((millis() - startTime) / 1000);
-
 }
 
 function keyPressed() {
